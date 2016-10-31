@@ -1,23 +1,34 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Example Component</div>
+      <div class="collection" v-if="items.length">
+        <a href="#!" class="collection-item" v-for="item in items">{{ item.title }}</a>
+      </div>
 
-                    <div class="panel-body">
-                        I'm an example component!
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      <div class="collection" v-else>
+        <a href="#!" class="collection-item red-text">-- no items --</a>
+      </div>
 </template>
 
 <script>
     export default {
-        mounted() {
+        data(){
+            return {
+                items: []
+            };
+        },
+        ready() {
             console.log('Component ready.')
+        },
+        asyncData(){
+            this.addItems();
+        },
+        methods: {
+            addItems() {
+                for(var i = 0; i < 5; i++) {
+                    this.items.push({
+                        title: 'Record #' + i
+                    });
+                }
+            }
         }
     }
 </script>

@@ -1,6 +1,8 @@
 const elixir = require('laravel-elixir');
 
-require('laravel-elixir-vue-2');
+require('laravel-elixir-vue');
+
+elixir.config.sourcemaps = true;
 
 /*
  |--------------------------------------------------------------------------
@@ -13,7 +15,28 @@ require('laravel-elixir-vue-2');
  |
  */
 
-elixir(mix => {
-    mix.sass('app.scss')
-       .webpack('app.js');
-});
+elixir(mix =>
+       {
+           var
+               assets       = 'resources/assets/',
+               node_modules = '../../../node_modules/';
+
+           mix
+               .sass('app.scss', 'public/css/app.css')
+
+               .copy(assets + 'images', 'public/images')
+               .copy(node_modules + 'materialize-css/fonts', 'public/build/fonts')
+
+               .webpack('app.js')
+
+               /*
+                * Version
+                */
+               .version(
+                   [
+                       'css/app.css',
+                       'js/app.js'
+                   ]
+               );
+       }
+);
